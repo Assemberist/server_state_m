@@ -1,4 +1,4 @@
-SERVER = server.c
+SERVER = server.c parser.c
 CLIENT = client.c
 
 CORE = statem.c

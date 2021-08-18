@@ -15,8 +15,7 @@ int main(int argc, char *argv[]) {
     int listenfd = 0, connfd = 0;
     struct sockaddr_in serv_addr;
 
-    char* sendBuff = "HTTP/1.1 200 OK\n\n<head>Sebe derni, pes!<hr></head><body><a href = titi>dernut</a></body>";
-    char reader[2024] = {0};
+    char reader[32*5] = {0};
 
     listenfd = socket(AF_INET, SOCK_STREAM, 0);
     memset(&serv_addr, '0', sizeof(serv_addr));
@@ -27,14 +26,14 @@ int main(int argc, char *argv[]) {
 
     bind(listenfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr));
     listen(listenfd, 10);
-    while(1) {
+    while(1){
         connfd = accept(listenfd, (struct sockaddr*)NULL, NULL);
-        read(connfd, reader, 2024);
-        puts(reader);
+        read(connfd, reader, 32*5);
 
-        write(connfd, sendBuff, strlen(sendBuff));
+        char* ansver = new_query(reader);
+        write(connfd, ansver, strlen(ansver));
 
         close(connfd);
         sleep(1);
-        }
+    }
 }
