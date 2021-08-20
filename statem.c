@@ -67,7 +67,7 @@ answer _Pause(char* name, machine* stack){
 }
 
 answer _Stop(char* name, machine* stack){
-    for(; stack->_name; stack++)
+    for(; stack->_state != CANARY; stack++)
         if(stack->_state == RUN) stack->_state = PAUSE;
 
     return OK;
