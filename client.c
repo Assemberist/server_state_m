@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
     char recvBuff[32*5];
     struct sockaddr_in serv_addr;
 
-    if(argc > 2) {
+    if(argc != 2) {
         errno = E2BIG;
         fuck();
     }
@@ -36,14 +36,13 @@ int main(int argc, char *argv[]) {
 
     if(connect(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) fuck();
 
-    sprintf(recvBuff, "init:qwe");
-    write(sockfd, recvBuff, strlen(recvBuff));
+    write(sockfd, argv[1], strlen(argv[1]));
 
     while( (n = read(sockfd, recvBuff, sizeof(recvBuff)-1)) > 0){
         recvBuff[n] = 0;
         if(fputs(recvBuff, stdout) == EOF) fuck();
     }
 
-    if(n < 0) puts("\n Read error");
+    puts(n < 0 ? "\n Read error" : "");
     return 0;
 }

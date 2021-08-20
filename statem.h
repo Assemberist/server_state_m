@@ -33,7 +33,7 @@ typedef struct call_stack{
     answer(*ptr)(char*,machine*);
 } call_stack;
 
-char* new_query(char* buffer);
+char* new_query(char* buffer, machine* stack);
 answer read_query(char* query, machine* stack);
 
 answer _Init(char* name, machine* stack);

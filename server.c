@@ -10,12 +10,19 @@
 #include <time.h>
 #include "statem.h"
 
+machine stack[5] = {
+    {"", CLOSED},
+    {"", CLOSED},
+    {"", CLOSED},
+    {"", CLOSED},
+    {"", CANARY}
+};
 
 int main(int argc, char *argv[]) {
     int listenfd = 0, connfd = 0;
     struct sockaddr_in serv_addr;
 
-    char reader[32*5] = {0};
+    char reader[32*5];
 
     listenfd = socket(AF_INET, SOCK_STREAM, 0);
     memset(&serv_addr, '0', sizeof(serv_addr));
@@ -27,11 +34,17 @@ int main(int argc, char *argv[]) {
     bind(listenfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr));
     listen(listenfd, 10);
     while(1){
+	memset(reader, 0, 32*5);
         connfd = accept(listenfd, (struct sockaddr*)NULL, NULL);
         read(connfd, reader, 32*5);
 
-        char* ansver = new_query(reader);
+	puts(reader);
+
+        char* ansver = new_query(reader, stack);
         write(connfd, ansver, strlen(ansver));
+
+	_List_impl(reader, stack);
+	puts(reader);
 
         close(connfd);
         sleep(1);

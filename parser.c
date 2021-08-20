@@ -1,15 +1,7 @@
 #include <stdio.h>
 #include "statem.h"
 
-machine stack[5] = {
-    {"", CLOSED},
-    {"", CLOSED},
-    {"", CLOSED},
-    {"", CLOSED},
-    {"", CANARY}
-};
-
-char* new_query(char* buffer){
+char* new_query(char* buffer, machine* stack){
     switch(read_query(buffer, stack)){
         case STRANGE_QUERY:
             return "strange query"; 
