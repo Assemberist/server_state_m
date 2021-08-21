@@ -49,7 +49,7 @@ answer _Init(char* name, machine* stack){
 answer _Run(char* name, machine* stack){
     stack = seek_machine(name, stack);
     if(!name) return STRANGE_QUERY;
-    if(!stack) NO_ENTRY;
+    if(!stack) return NO_ENTRY;
     if(stack->_state == CLOSED) return WRONG_STATE;
 
     stack->_state = RUN;
