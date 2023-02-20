@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
     char recvBuff[32*5];
     struct sockaddr_in serv_addr;
 
-    if(argc != 2) {
+    if(argc != 3) {
         errno = E2BIG;
         fuck();
     }
@@ -31,12 +31,12 @@ int main(int argc, char *argv[]) {
     memset(&serv_addr, '0', sizeof(serv_addr));
 
     serv_addr.sin_family = AF_INET;
-    serv_addr.sin_addr.s_addr = inet_addr("45.135.164.125");
+    serv_addr.sin_addr.s_addr = inet_addr(argv[1]);
     serv_addr.sin_port = htons(5000);
 
     if(connect(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) fuck();
 
-    write(sockfd, argv[1], strlen(argv[1]));
+    write(sockfd, argv[2], strlen(argv[2]));
 
     while( (n = read(sockfd, recvBuff, sizeof(recvBuff)-1)) > 0){
         recvBuff[n] = 0;
